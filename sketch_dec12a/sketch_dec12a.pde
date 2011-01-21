@@ -2,7 +2,6 @@
 #include <SPI.h>
 #include <Max3421e.h>
 #include <Usb.h>
-#include <Max_LCD.h>
 #include <MemoryFree.h>
 #include <Wire.h>
 /*The application will work in reduced host mode, so we can save program and data
@@ -843,8 +842,6 @@ void printProgStr(const prog_char str[])
 
 void myapp(void)
 {
-      hid_flags &= ~HID_FLAG_BUTTONS_CHANGED;
-      printProgStr(HID_Buttons_str);
   Wire.beginTransmission(4); // transmit to device #4
   Wire.send(3);  
   Wire.send(x);
