@@ -7,7 +7,7 @@ WiiRemote wiiremote;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   wiiremote.init();
   unsigned char wiiremote_bdaddr[6] = {0x00, 0x27, 0x09, 0x6E, 0xFB, 0xAA};
   wiiremote.setBDAddress(wiiremote_bdaddr, 6);
@@ -23,7 +23,12 @@ void loop()
 void myapp(void) {
 
  float y = wiiremote.Report.Accel.Y;
- Serial.print(y);
+ float x = wiiremote.Report.Accel.X;
+  Serial.print(y);
+ Serial.print("    ");
+ Serial.print(x);
+ Serial.print("    ");
+ Serial.print(millis()/1000);
  Serial.print("\r\n");
 }
 
