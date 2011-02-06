@@ -1,8 +1,5 @@
 // KasBot V2  -  Motors module
-byte torque_R;
-byte torque_L;
-byte K_map = 20;
-byte motor_Offset = 0;
+
 
 int Drive_Motor(int torque)  {
   if (torque + turn >= 0)  {                                          // drive motors forward
@@ -28,9 +25,9 @@ int Drive_Motor(int torque)  {
  }
   torque_R = map(torque_R,0,255,10,127);
   torque_L = map(torque_L,0,255,10,127);
-  torque_R = constrain(torque_R, 10, 127);
-  torque_L = constrain(torque_L * motor_Offset, 10, 127);
-  torque_L = torque_L * motor_Offset;
+  torque_RD =(byte) constrain(torque_R, 10, 127);
+  torque_LD =(byte) constrain(torque_L * motor_Offset, 10, 127);
+  torque_LD = torque_LD * motor_Offset;
   Driver();
 }
  
@@ -64,11 +61,11 @@ void setupDriver(){
 void Driver() {
    Serial2.write(adress);
  Serial2.write(cl);
- Serial2.write(torque_L);
- Serial2.write((adress + cl + torque_L) && 0x7f);
+ Serial2.write(torque_LD);
+ Serial2.write((adress + cl + torque_LD) && 0x7f);
    Serial2.write(adress);
  Serial2.write(cl);
- Serial2.write(torque_R);
- Serial2.write((adress + cr + torque_R) && 0x7f);
+ Serial2.write(torque_RD);
+ Serial2.write((adress + cr + torque_RD) && 0x7f);
 }
 
