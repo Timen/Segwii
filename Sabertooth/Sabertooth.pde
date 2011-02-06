@@ -1,20 +1,25 @@
 byte lspeed,rspeed;
 
 void setup() {
-  delay(2000);
- Serial1.begin(19200);
- Serial.write(170);
  delay(500);
+ Serial2.begin(19200);
+ Serial2.write(170);
+ delay(50);
+ Serial2.write(128);
+ Serial2.write(2);
+ Serial2.write(21);
+ Serial2.write((128 + 1 + 21) & 0x7f);
  }
  
 
 void loop() {
-Serial1.write(128);
-Serial1.write(1);
-Serial1.write(lspeed);
-Serial1.write((128 + 1 + lspeed) & 0x7f);
-Serial1.write(128);
-Serial1.write(5);
-Serial1.write(rspeed);
-Serial1.write((128 + 5 + rspeed) & 0x7f);
+ Serial2.write(128);
+ byte q = 0;
+ Serial2.write(q);
+ Serial2.write(127);
+ Serial2.write((128 + 0 + 127) & 0x7f);
+  Serial2.write(128);
+ Serial2.write(4);
+ Serial2.write(127);
+ Serial2.write((128 + 4 + 127) & 0x7f);
 }
