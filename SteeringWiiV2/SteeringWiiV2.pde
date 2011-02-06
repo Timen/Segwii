@@ -3,7 +3,9 @@
 #include <Max3421e.h>
 #include <Usb.h>
 
+
 WiiRemote wiiremote;
+
 
 void setup()
 {
@@ -28,13 +30,13 @@ void myapp(void) {
    k = (k+1)*20;
      u = constrain(u, 0, 40);                                
      k = constrain(k, 0, 40);
- int x = (int) u;
- int y = (int) k;
-  if((x!=Byte1_ant)||(y!=Byte2_ant)||((x!=Byte1_ant)&&(u!=Byte2_ant)))  {
-      Serial.print('d');        
-      Serial.print(a);    
-      Serial.print(b);
-      Serial.print("\n");
+ byte x = (byte) u;
+ byte y = (byte) k;
+  if((x!=Byte1_ant)||(y!=Byte2_ant))  {  
+    Serial.print('d');   
+      Serial.write(x);    
+      Serial.write(y);
+      Serial.write(x+y);
       Byte1_ant = x;
       Byte2_ant = y;
   }
