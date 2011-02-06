@@ -17,9 +17,10 @@
 #define   PWM_L                 11                             // PWM left motor pin
 #define encodPinA1              3                              // encoder A right motor pin (Yellow)
 #define encodPinB1              2                              // encoder B right motor pin (White)
-
+byte cr, cl;
+byte adress = 128;
 int   STD_LOOP_TIME  =          9;             
-
+int turn;
 int sensorValue[3]  = { 0, 0, 0};
 int sensorZero[3]  = { 0, 0, 0 }; 
 int lastLoopTime = STD_LOOP_TIME;
@@ -39,6 +40,7 @@ void setup() {
   Serial1.begin(115200);
   for(int pin=InA_R; pin<=PWM_L; pin++)    pinMode(pin, OUTPUT);         // set output mode
   setupEncoder();
+  setupDriver();
   delay(2000);                                                
   calibrateSensors();
 }

@@ -2,8 +2,7 @@
 
 #define   GUARD_GAIN   10.0                // 20.0
 
-float K = 1.9 * 1.12;  // wheels 80mm
-//float K = 1.9 ;      // wheels 100mm
+float K = 1.9 ;      // wheels 100mm
 float Kp = 7;                           
 float Ki = 1;                        
 float Kd = -6;       
