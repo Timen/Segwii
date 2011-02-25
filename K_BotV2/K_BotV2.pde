@@ -5,7 +5,8 @@
 // V1.2: Advanced balancing with encoders integrated
 // V1: basic Blancing
 #include <math.h>
-
+ #include <LiquidCrystal.h>
+ 
 #define   GYR_Y                 0                              // Gyro Y (IMU pin #4)
 #define   ACC_Z                 1                              // Acc  Z (IMU pin #7)
 #define   ACC_X                 2                              // Acc  X (IMU pin #9)
@@ -26,6 +27,7 @@ byte  error=10;
 byte  a = 0;
 int setPoint = 0;
 int turn;
+byte con = 0;
 //Sensor data and processing variables
 int   STD_LOOP_TIME  =          9;             
 int sensorValue[3]  = { 0, 0, 0};
@@ -41,10 +43,15 @@ int lastLoopTime = STD_LOOP_TIME;
 int lastLoopUsefulTime = STD_LOOP_TIME;
 unsigned long loopStartTime = 0;
 
+LiquidCrystal lcd(35, 33, 31, 29, 27, 25, 23);
+
 void setup() {
+       
   analogReference(EXTERNAL);                                             // Aref 3.3V
-  // Serial.begin(115200);
+  Serial.begin(115200);
   Serial1.begin(115200);
+  setupLCD();
+  LCD();
   setupEncoder();
   setupDriver();
   delay(2000);                                                
@@ -52,28 +59,31 @@ void setup() {
 }
 
 void loop() {
-// ********************* Wiimote Data *******************************
-  getMotion();
-
-// ********************* Sensor aquisition & filtering *******************
-  updateSensors();
-  ACC_angle = getAccAngle();                                                 // in Quids
-  GYRO_rate = getGyroRate();                                                 // in Quids/seconds
-  actAngle = kalmanCalculate(ACC_angle, GYRO_rate, lastLoopTime);            // calculate Absolute Angle
-
-// *********************** Angle Control and motor drive *************
-  drive = updatePid(setPoint, actAngle);            		        // PID algorithm
-
-  if(abs(actAngle) < 100)    {
-    Drive_Motor(drive);
-  }  else {  
-    Drive_Motor(0);                                                    // stop motors if situation is hopeless
-   setZeroIntegal();                                               // reset PID Integral accumulaor
+  if (con == 0) Oper();
+  if (con == 1) {
+  // ********************* Wiimote Data *******************************
+    getMotion();
+  
+  // ********************* Sensor aquisition & filtering *******************
+    updateSensors();
+    ACC_angle = getAccAngle();                                                 // in Quids
+    GYRO_rate = getGyroRate();                                                 // in Quids/seconds
+    actAngle = kalmanCalculate(ACC_angle, GYRO_rate, lastLoopTime);            // calculate Absolute Angle
+  
+  // *********************** Angle Control and motor drive *************
+    drive = updatePid(setPoint, actAngle);            		        // PID algorithm
+  
+    if(abs(actAngle) < 100)    {
+      Drive_Motor(drive);
+    }  else {  
+      Drive_Motor(0);                                                    // stop motors if situation is hopeless
+     setZeroIntegal();                                               // reset PID Integral accumulaor
+    }
+  
+  // *********************** loop timing control **************************
+    lastLoopUsefulTime = millis()-loopStartTime;
+    if(lastLoopUsefulTime<STD_LOOP_TIME)         delay(STD_LOOP_TIME-lastLoopUsefulTime);
+    lastLoopTime = millis() - loopStartTime;
+    loopStartTime = millis();
   }
-
-// *********************** loop timing control **************************
-  lastLoopUsefulTime = millis()-loopStartTime;
-  if(lastLoopUsefulTime<STD_LOOP_TIME)         delay(STD_LOOP_TIME-lastLoopUsefulTime);
-  lastLoopTime = millis() - loopStartTime;
-  loopStartTime = millis();
 }

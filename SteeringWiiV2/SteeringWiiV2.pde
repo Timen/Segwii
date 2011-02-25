@@ -36,7 +36,7 @@ void myapp(void) {
     Serial.print('d');   
       Serial.write(x);    
       Serial.write(y);
-      Serial.write(x+y);
+      Serial.write((x+y)&& 0b01111111);
       Byte1_ant = x;
       Byte2_ant = y;
   }

@@ -16,17 +16,33 @@
  This example code is in the public domain.
  
  */
+ #include <LiquidCrystal.h>
+ 
 byte  oldx, oldy;
 byte  error=10;
 byte  a = 0;
+byte b = 0;
+LiquidCrystal lcd(35, 33, 31, 29, 27, 25, 23);
 
 void setup() {
   // initialize both serial ports:
   Serial.begin(115200);
   Serial1.begin(115200);
+   setupLCD();
+   LCD();
 }
 
 void loop() {
+  if (b == 0){
+   if (Serial1.available()){
+    b = 1;
+       lcd.clear();                  // start with a blank screen
+  lcd.setCursor(0,1);           // set cursor to column 0, row 1
+  lcd.print("Operating..");
+   } 
+  }
+  
+  if (b == 1){
   if(!Serial1.available())   return;        
   delay(1);
   byte controlByte = Serial1.read();              // get control byte
@@ -58,4 +74,5 @@ void loop() {
       }
    }
 delay(1);
+}
 }

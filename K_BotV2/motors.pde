@@ -27,7 +27,6 @@ int Drive_Motor(int torque)  {
   torque_L = map(torque_L,0,255,10,127);
   torque_RD =(byte) constrain(torque_R, 10, 127);
   torque_LD =(byte) constrain(torque_L * motor_Offset, 10, 127);
-  torque_LD = torque_LD * motor_Offset;
   Driver();
 }
  
@@ -64,7 +63,7 @@ void Driver() {
  Serial2.write(torque_LD);
  Serial2.write((adress + cl + torque_LD) && 0x7f);
    Serial2.write(adress);
- Serial2.write(cl);
+ Serial2.write(cr);
  Serial2.write(torque_RD);
  Serial2.write((adress + cr + torque_RD) && 0x7f);
 }
