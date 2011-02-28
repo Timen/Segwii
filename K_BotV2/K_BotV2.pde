@@ -10,8 +10,8 @@
 #define   GYR_Y                 0                              // Gyro Y (IMU pin #4)
 #define   ACC_Z                 1                              // Acc  Z (IMU pin #7)
 #define   ACC_X                 2                              // Acc  X (IMU pin #9)
-#define encodPinA1              20                              // encoder A right motor pin (Yellow)
-#define encodPinB1              21                              // encoder B right motor pin (White)
+#define encodPinA1              3                              // encoder A right motor pin (Yellow)
+#define encodPinB1              4                              // encoder B right motor pin (White)
 //moter control variables
 byte cr, cl;
 byte adress = 128;
