@@ -38,11 +38,11 @@ void setupEncoder()  {
   pinMode(encodPinB1, INPUT); 
   digitalWrite(encodPinA1, HIGH);                      // turn on pullup resistor
   digitalWrite(encodPinB1, HIGH);
-  attachInterrupt(1, rencoder, FALLING);
+  attachInterrupt(3, rencoder, FALLING);
 }
 
 void rencoder()  {                                       // pulse and direction, direct port reading to save cycles
-  if (PIND & 0b00000100)    count++;                     // if(digitalRead(encodPinB1)==HIGH)   count++   (on DI #2)
+  if (PIND & 0b00000001)    count++;                     // if(digitalRead(encodPinB1)==HIGH)   count++   (on DI #21)
   else                      count--;        
 }
 
